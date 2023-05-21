@@ -8,5 +8,6 @@ public interface MessageType {
     String MESSAGE_RETURN_ONLINE_USERLIST = "5";
     String MESSAGE_CLIENT_EXIT = "6";
     String MESSAGE_FILE_MES = "7";
+    String MESSAGE_CAT = "8";
 
 }

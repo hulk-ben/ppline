@@ -20,7 +20,7 @@ public class UserClientService {
         u.setUserID(user);
         u.setPassWD(passWD);
         try {
-            socket = new Socket("43.143.186.174", 44444);
+            socket = new Socket("43.143.186.174", 52113);
             ObjectOutputStream outuser = new ObjectOutputStream(socket.getOutputStream());
             outuser.writeObject(u);
 

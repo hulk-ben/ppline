@@ -1,5 +1,6 @@
 package ppclient.service;
 
+import org.junit.Test;
 import ppcommen.Message;
 import ppcommen.MessageType;
 
@@ -30,6 +31,7 @@ public class MessageClientService {
         try {
             ObjectOutputStream groupmessage = new ObjectOutputStream(MannageCConnectThread.getCConnectThread(senduser).getSocket().getOutputStream());
             groupmessage.writeObject(message);
+
             return true;
         } catch (IOException e) {
            e.printStackTrace();
@@ -41,9 +43,8 @@ public class MessageClientService {
         message.setMesType(MessageType.MESSAGE_FILE_MES);
         message.setSender(sender);
         message.setGetter(getter);
-        String[] split = path.split("/");
-        message.setContent(split[split.length-1]);
         File file = new File(path);
+        message.setContent(file.getName());
         byte[] bytes = new byte[(int)file.length()];
 
 
@@ -55,11 +56,25 @@ public class MessageClientService {
             return true;
         } catch (FileNotFoundException e) {
 
-            e.printStackTrace();
+            System.out.println("没有找到文件");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("没有找到文件");
         }
         return false;
 
+    }
+
+    public void catOffMess(String userID) {
+        Message message = new Message();
+        message.setSender(userID);
+        message.setGetter("服务器");
+        message.setMesType(MessageType.MESSAGE_CAT);
+        try {
+            ObjectOutputStream groupmessage = new ObjectOutputStream(MannageCConnectThread.getCConnectThread(userID).getSocket().getOutputStream());
+            groupmessage.writeObject(message);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
