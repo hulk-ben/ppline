@@ -17,8 +17,8 @@ public class PPview {
     }
 
     private void mainMenu() {
-        File file = new File("C:\\Users\\Public\\ppfile");
-        file.mkdirs();
+        File file = new File("..\\ppfile");
+        System.out.println(file.mkdirs());
         while (loop) {
             System.out.println("\t\t欢迎登陆系统\t\t");
             System.out.println("\t\t1、登陆系统\t\t");
@@ -76,7 +76,7 @@ public class PPview {
                                     System.out.println("请输入要send的朋友：");
                                     String s4 = Utility.readString(50);
                                     System.out.println("请输入要send的文件的文件名：");
-                                    String path =String.format(" C:\\Users\\Public\\ppfile\\%s",Utility.readString(1000)) ;
+                                    String path =String.format(" ..\\ppfile\\%s",Utility.readString(1000)) ;
                                     if (mesSev.sendFile(userID, s4, path)) {
                                         System.out.println("发送完毕");
                                     }

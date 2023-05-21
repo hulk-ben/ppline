@@ -66,7 +66,7 @@ public class ClientConnectTheard extends Thread {
         String name = message.getContent();
         File file = null;
         try {
-             File dir = new File("/home/qys/ppfiles");
+             File dir = new File("..\\ppgetfiles");
              dir.mkdirs();
             file = new File(dir, name);
             try (FileOutputStream outputStream = new FileOutputStream(file)) {
