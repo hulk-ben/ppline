@@ -66,13 +66,14 @@ public class ClientConnectTheard extends Thread {
         String name = message.getContent();
         File file = null;
         try {
-             File dir = new File("..\\ppgetfiles");
+             File dir = new File(".\\ppgetfiles");
              dir.mkdirs();
             file = new File(dir, name);
+            System.out.println("正在接收文件");
             try (FileOutputStream outputStream = new FileOutputStream(file)) {
                 byte[] bytes = message.getBytes();
                 outputStream.write(bytes);
-
+                System.out.println("接收完毕保存在"+file.getAbsolutePath());
             }catch (FileNotFoundException e) {
                 System.out.println("文件未找到");
             } catch (IOException e) {

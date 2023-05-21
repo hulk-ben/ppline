@@ -55,10 +55,10 @@ public class MessageClientService {
             outfile.writeObject(message);
             return true;
         } catch (FileNotFoundException e) {
-
+            System.out.println(path);
             System.out.println("没有找到文件");
         } catch (IOException e) {
-            System.out.println("没有找到文件");
+            System.out.println("IOcuo");
         }
         return false;
 
