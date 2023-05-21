@@ -9,46 +9,52 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PPServer {
 
     private ServerSocket serverSocket = null;
-    private static HashMap<String, User> validUsers = new HashMap<>();
+    private static DatabaseService databaseService;
+//
+//    static {
+//
+//    }
 
-    static {
-
-        validUsers.put("sjx", new User("sjx", " "));
-        validUsers.put("qsy", new User("qsy", "123"));
-        validUsers.put("lxl", new User("lxl", " "));
-    }
-
-    private boolean checkUser(String userID, String passwd) {
-        User user = validUsers.get(userID);
-        if (user == null) {
-            return false;
+    private boolean checkUser(User user) {
+        if (ManagerClientThread.getThread(user.getUserID()) == null) {
+            try {
+                return databaseService.queryUser(user);
+            } catch (Exception e) {
+                System.out.println("用户查询失败");
+                return false;
+            }
         }
-        if (!user.getPassWD().equals(passwd)) {
-            return false;
-        }
-        return true;
+        return false;
+
     }
 
     public PPServer() {
         try {
-            serverSocket = new ServerSocket(44444);
-            System.out.println("服务器在44444");
+            serverSocket = new ServerSocket(52113);
+            System.out.println("服务器在52113");
 
             while (true) {
+                try {
+                    databaseService = new  DatabaseService();
+                } catch (Exception e) {
+                    System.out.println("数据库连接失败");
+                    e.printStackTrace();
+                }
                 Socket socket = serverSocket.accept();
                 ObjectInputStream ino = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream outo = new ObjectOutputStream(socket.getOutputStream());
                 User o = (User) ino.readObject();
                 Message message = new Message();
-                if (checkUser(o.getUserID(), o.getPassWD())) {
+                if (checkUser(o)) {
                     message.setMesType(MessageType.MESSAGE_LOGIN_SUCCEED);
                     outo.writeObject(message);
-                    ServerConnectClientThread serverThread = new ServerConnectClientThread(o.getUserID(), socket);
+                    ServerConnectClientThread serverThread = new ServerConnectClientThread(o.getUserID(), socket,databaseService);
                     serverThread.start();
                     ManagerClientThread.addThreads(o.getUserID(), serverThread);
 

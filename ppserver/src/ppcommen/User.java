@@ -9,8 +9,13 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     private String userID;
     private String passWD;
+    private static User auser = null;
 
-    public User() {
+    public static User getUser(String userID, String passWD){
+        if (auser == null) {
+            auser = new User(userID,passWD);
+        }
+        return auser;
     }
 
     public String getUserID() {

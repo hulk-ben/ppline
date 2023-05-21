@@ -1,6 +1,7 @@
 package ppcommen;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Message implements Serializable {
 
@@ -73,5 +74,17 @@ public class Message implements Serializable {
 
     public void setSendTime(String sendTime) {
         this.sendTime = sendTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "sender='" + sender + '\'' +
+                ", getter='" + getter + '\'' +
+                ", content='" + content + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                ", sendTime='" + sendTime + '\'' +
+                ", mesType='" + mesType + '\'' +
+                '}';
     }
 }
